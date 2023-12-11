@@ -12,6 +12,7 @@ public class Ball : MonoBehaviour, IPoolObject
     public List<BallHistory> historyCts = new();
     public BallRender BallRender;
 
+    
     // Property to get the coordinate vector of the ball
     public Vector3 xyz
     {
@@ -81,5 +82,9 @@ public class Ball : MonoBehaviour, IPoolObject
             id = id
         };
         return ball;
+    }
+    private void FixedUpdate()
+    {
+        transform.position = state.rvw[0];
     }
 }
