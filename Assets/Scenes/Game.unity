@@ -5631,6 +5631,7 @@ MonoBehaviour:
   - {fileID: 1884674851}
   - {fileID: 160556973}
   tableParams: {fileID: 1424181847}
+  gameMode: 1
 --- !u!1 &1950517925
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,19 +1,74 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static UnityEditor.PlayerSettings;
-using NUnit.Framework;
+using System;
 
+public enum GameMode
+{
+    EIGHTBALL,
+    NINEBALL
+}
 public class TESTBallBreak : MonoBehaviour
 {
     [SerializeField] List<Ball> balls = new();
     [SerializeField] TableParams tableParams;
+    [SerializeField] GameMode gameMode;
     float spacingFactor = 1e-3f;
 
     public void Start()
     {
-        CreateBreak();
+        CreateBreak(gameMode);
     }
-    public void CreateBreak()
+    public void CreateBreak(GameMode mode)
+    {
+        if (mode == GameMode.EIGHTBALL)
+            CreateEightBallBreak();
+        else if (mode == GameMode.NINEBALL)
+            CreateNineBallBreak();
+    }
+
+    private void CreateNineBallBreak()
+    {
+        Vector3 startPos = balls[0].transform.position;
+        float radius = balls[0].params_.R;
+        float distance = 2 * radius;
+
+        // Positions for the 9-ball diamond rack
+        Vector3[] positions = new Vector3[9];
+
+        // First row - 1 ball
+        positions[0] = startPos;
+
+        // Second row - 2 balls
+        positions[1] = startPos + new Vector3(-distance / 2, 0, -distance * Mathf.Sqrt(3) / 2);
+        positions[2] = startPos + new Vector3(distance / 2, 0, -distance * Mathf.Sqrt(3) / 2);
+
+        // Third row - 3 balls (with the 9-ball in the center)
+        positions[3] = startPos + new Vector3(-distance, 0, -2 * distance * Mathf.Sqrt(3) / 2);
+        positions[4] = startPos + new Vector3(0, 0, -2 * distance * (float)Math.Sqrt(3) / 2);
+        positions[5] = startPos + new Vector3(distance, 0, -2 * distance * Mathf.Sqrt(3) / 2);
+
+        // Fourth row - 2 balls
+        positions[6] = startPos + new Vector3(-distance / 2, 0, -3 * distance * Mathf.Sqrt(3) / 2);
+        positions[7] = startPos + new Vector3(distance / 2, 0, -3 * distance * Mathf.Sqrt(3) / 2);
+
+        // Fifth row - 1 ball
+        positions[8] = startPos + new Vector3(0, 0, -4 * distance * Mathf.Sqrt(3) / 2);
+
+        for (int i = 0; i < positions.Length; i++)
+        {
+            balls[i].transform.position = positions[i];
+        }
+        (balls[8].transform.position, balls[4].transform.position) = (balls[4].transform.position, balls[8].transform.position);
+
+        for (int i = positions.Length; i < balls.Count; i++)
+        {
+            balls[i].gameObject.SetActive(false);
+        }
+
+    }
+
+    private void CreateEightBallBreak()
     {
         List<Vector3> poses = new();
         Vector3 startPos = balls[0].transform.position; // Replace with your starting position
@@ -36,7 +91,6 @@ public class TESTBallBreak : MonoBehaviour
             balls[i].transform.position = poses[i];
         }
         (balls[7].transform.position, balls[4].transform.position) = (balls[4].transform.position, balls[7].transform.position);
-
     }
     private void BreakRandomizer(ref List<Vector3> list)
     {
