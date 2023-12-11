@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEditor.PlayerSettings;
-using System;
 
 public enum GameMode
 {
@@ -45,7 +43,7 @@ public class TESTBallBreak : MonoBehaviour
 
         // Third row - 3 balls (with the 9-ball in the center)
         positions[3] = startPos + new Vector3(-distance, 0, -2 * distance * Mathf.Sqrt(3) / 2);
-        positions[4] = startPos + new Vector3(0, 0, -2 * distance * (float)Math.Sqrt(3) / 2);
+        positions[4] = startPos + new Vector3(0, 0, -2 * distance * Mathf.Sqrt(3) / 2);
         positions[5] = startPos + new Vector3(distance, 0, -2 * distance * Mathf.Sqrt(3) / 2);
 
         // Fourth row - 2 balls
@@ -57,22 +55,20 @@ public class TESTBallBreak : MonoBehaviour
 
         for (int i = 0; i < positions.Length; i++)
         {
-            balls[i].transform.position = positions[i];
+            balls[i].state.rvw[0] = positions[i];
         }
-        (balls[8].transform.position, balls[4].transform.position) = (balls[4].transform.position, balls[8].transform.position);
+        (balls[8].state.rvw[0], balls[4].state.rvw[0]) = (balls[4].state.rvw[0], balls[8].state.rvw[0]);
 
         for (int i = positions.Length; i < balls.Count; i++)
         {
             balls[i].gameObject.SetActive(false);
         }
-
     }
-
     private void CreateEightBallBreak()
     {
         List<Vector3> poses = new();
-        Vector3 startPos = balls[0].transform.position; // Replace with your starting position
-        float radius = balls[0].params_.R; // Replace with your ball's radius
+        Vector3 startPos = balls[0].transform.position;
+        float radius = balls[0].params_.R;
         float distance = 2 * radius;
         int ballsInRow = 5; // Number of balls in the bottom row
 
@@ -88,9 +84,9 @@ public class TESTBallBreak : MonoBehaviour
         BreakRandomizer(ref poses);
         for (int i = 0; i < balls.Count; ++i)
         {
-            balls[i].transform.position = poses[i];
+            balls[i].state.rvw[0] = poses[i];
         }
-        (balls[7].transform.position, balls[4].transform.position) = (balls[4].transform.position, balls[7].transform.position);
+        (balls[7].state.rvw[0], balls[4].state.rvw[0]) = (balls[4].state.rvw[0], balls[7].state.rvw[0]);
     }
     private void BreakRandomizer(ref List<Vector3> list)
     {
@@ -108,9 +104,7 @@ public class TESTBallBreak : MonoBehaviour
         {
             n--;
             int k = rng.Next(n + 1);
-            Vector3 value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+            (list[n], list[k]) = (list[k], list[n]);
         }
 
         // Insert the excluded value back to its original position
