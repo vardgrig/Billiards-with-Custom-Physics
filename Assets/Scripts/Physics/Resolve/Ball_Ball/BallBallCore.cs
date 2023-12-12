@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+public enum BallBallModel
+{
+    FRICTIONLESS_ELASTIC
+}
 public interface IBaseStrategy
 {
     Tuple<Ball, Ball> MakeKiss(Ball ball1, Ball ball2);
@@ -11,7 +15,7 @@ public interface IBallBallCollisionStrategy : IBaseStrategy
     Tuple<Ball, Ball> Solve(Ball ball1, Ball ball2);
 }
 
-public abstract class BallBallCore : MonoBehaviour, IBaseStrategy
+public abstract class BallBallCore : IBaseStrategy
 {
     public abstract Tuple<Ball, Ball> Solve(Ball ball1, Ball ball2);
 
@@ -41,5 +45,10 @@ public abstract class BallBallCore : MonoBehaviour, IBaseStrategy
         ball2 = res.Item2;
 
         return Solve(ball1, ball2);
+    }
+
+    public Tuple<Cue, Ball> Resolve(Cue cue, Ball ball, bool inplace = false)
+    {
+        throw new NotImplementedException();
     }
 }
