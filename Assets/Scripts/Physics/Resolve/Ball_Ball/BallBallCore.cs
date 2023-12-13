@@ -1,19 +1,4 @@
 using System;
-using UnityEngine;
-
-public enum BallBallModel
-{
-    FRICTIONLESS_ELASTIC
-}
-public interface IBaseStrategy
-{
-    Tuple<Ball, Ball> MakeKiss(Ball ball1, Ball ball2);
-    Tuple<Ball, Ball> Resolve(Ball ball1, Ball ball2, bool inplace = false);
-}
-public interface IBallBallCollisionStrategy : IBaseStrategy
-{
-    Tuple<Ball, Ball> Solve(Ball ball1, Ball ball2);
-}
 
 public abstract class BallBallCore : IBaseStrategy
 {

@@ -2,22 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBallPocketStrategy
-{
-    Tuple<Ball, Pocket> Resolve(Ball ball, Pocket pocket, bool inplace = false);
-}
-public enum BallPocketModel
-{
-    CANONICAL
-}
-
 public class BallPocketInit : IBallPocketStrategy
 {
-    //Dictionary<int, IBallPocketStrategy> ballPocketModels = new();
-    //public BallPocketInit() 
-    //{
-    //    ballPocketModels[(int)BallPocketModel.CANONICAL] = this;
-    //}
+    Dictionary<int, IBallPocketStrategy> ballPocketModels = new();
+    public BallPocketInit()
+    {
+        ballPocketModels[(int)BallPocketModel.CANONICAL] = this;
+    }
     public Tuple<Ball, Pocket> Resolve(Ball ball, Pocket pocket, bool inplace = false)
     {
         if(!inplace)

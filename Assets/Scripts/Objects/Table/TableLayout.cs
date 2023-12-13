@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public static class TableLayout
@@ -7,7 +6,7 @@ public static class TableLayout
     public static CushionSegments CreateBilliardTableCushionSegment(ITableSpecs tableSpecs)
     {
         var h = tableSpecs.Height;
-        Dictionary<string, LinearCushionSegment> linear = new Dictionary<string, LinearCushionSegment>()
+        Dictionary<string, LinearCushionSegment> linear = new()
         {
             { "3", new LinearCushionSegment()
             {

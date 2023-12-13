@@ -1,17 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
-
-public enum GameMode
-{
-    EIGHTBALL,
-    NINEBALL
-}
 public class TESTBallBreak : MonoBehaviour
 {
     [SerializeField] List<Ball> balls = new();
     [SerializeField] TableParams tableParams;
     [SerializeField] GameMode gameMode;
-    float spacingFactor = 1e-3f;
 
     public void Start()
     {

@@ -8,55 +8,35 @@ public class Ball : MonoBehaviour, IPoolObject
     public BallParams params_ = new();
     public BallOrientation initialOrientation = new();
 
-    public List<BallHistory> history = new();
-    public List<BallHistory> historyCts = new();
+    public BallHistory history = new();
+    public BallHistory historyCts = new();
     public BallRender BallRender;
 
     
-    // Property to get the coordinate vector of the ball
     public Vector3 xyz
     {
         get { return state.rvw[0]; }
     }
 
-    // Create a deep copy of the Ball object
+    public Ball()
+    {
+
+    }
+    public Ball(Ball other,bool dropHistory = false)
+    {
+        id = other.id;
+        state = other.state.Copy();
+        history = !dropHistory ? other.history.Copy() : new BallHistory();
+        historyCts = !dropHistory ? other.historyCts.Copy() : new BallHistory();
+    }
     IPoolObject IPoolObject.Copy(bool dropHistory = false) 
     {
-        Ball copy = new()
-        {
-            id = id,
-            state = state.Copy(),
-            params_ = params_.Copy(),
-            initialOrientation = initialOrientation.Copy()
-        };
-
-        if (!dropHistory)
-        {
-            copy.history.AddRange(history);
-            copy.historyCts.AddRange(historyCts);
-        }
-
-        return copy;
+        return new Ball(this, dropHistory);
     }
     public Ball Copy(bool dropHistory = false)
     {
-        Ball copy = new()
-        {
-            id = id,
-            state = state.Copy(),
-            params_ = params_.Copy(),
-            initialOrientation = initialOrientation.Copy()
-        };
-
-        if (!dropHistory)
-        {
-            copy.history.AddRange(history);
-            copy.historyCts.AddRange(historyCts);
-        }
-
-        return copy;
+        return new Ball(this, dropHistory);
     }
-    // Create a Ball object using a flattened parameter set
     public static Ball Create(string id, Vector2 xy, Dictionary<string, object> kwargs)
     {
         Ball ball = new()
@@ -74,7 +54,6 @@ public class Ball : MonoBehaviour, IPoolObject
         return ball;
     }
 
-    // Create a dummy Ball object
     public static Ball Dummy(string id = "dummy")
     {
         Ball ball = new()
