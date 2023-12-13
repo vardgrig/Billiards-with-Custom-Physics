@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-
-public class LinearCushionSegment
+public class LinearCushionSegment : ICushion
 {
     public string Id { get; set; }
     public Vector3 P1 { get; set; }
@@ -8,7 +7,7 @@ public class LinearCushionSegment
     public int Direction { get; set; } = (int)CushionDirection.BOTH;
 
     public float Height => P1[2];
-
+    float ICushion.Height => Height;
     public float LX
     {
         get
@@ -21,9 +20,7 @@ public class LinearCushionSegment
             return (p2x - p1x) == 0 ? 1 : -(p2y - p1y) / (p2x - p1x);
         }
     }
-
     public float LZ => (P2[0] - P1[0]) == 0 ? 0 : 1;
-
     public float L0
     {
         get
@@ -36,10 +33,9 @@ public class LinearCushionSegment
             return (p2x - p1x) == 0 ? -p1x : (p2y - p1y) / (p2x - p1x) * p1x - p1y;
         }
     }
-
     public Vector3 Normal => MathUtilities.UnitVector(new Vector3 (LX, 0, LZ ));
 
-    public Vector3 GetNormal(float[,] rvw)
+    public Vector3 GetNormal(Vector3[] rvw)
     {
         return Normal;
     }

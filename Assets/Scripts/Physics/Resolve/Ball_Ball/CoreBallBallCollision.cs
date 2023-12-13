@@ -1,6 +1,6 @@
 using System;
 
-public abstract class BallBallCore : IBaseStrategy
+public abstract class CoreBallBallCollision : IBallBallCollisionStrategy
 {
     public abstract Tuple<Ball, Ball> Solve(Ball ball1, Ball ball2);
 
@@ -16,7 +16,6 @@ public abstract class BallBallCore : IBaseStrategy
 
         return Tuple.Create(ball1, ball2);
     }
-
     public Tuple<Ball, Ball> Resolve(Ball ball1, Ball ball2, bool inplace = false)
     {
         if (!inplace)
@@ -30,10 +29,5 @@ public abstract class BallBallCore : IBaseStrategy
         ball2 = res.Item2;
 
         return Solve(ball1, ball2);
-    }
-
-    public Tuple<Cue, Ball> Resolve(Cue cue, Ball ball, bool inplace = false)
-    {
-        throw new NotImplementedException();
     }
 }

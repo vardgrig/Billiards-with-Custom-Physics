@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class FrictionlessElastic : BallBallCore
+public class FrictionlessElastic : CoreBallBallCollision
 {
     public override Tuple<Ball, Ball> Solve(Ball ball1, Ball ball2)
     {

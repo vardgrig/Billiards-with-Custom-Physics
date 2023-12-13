@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CircularCushionSegment
+public class CircularCushionSegment : ICushion
 {
     public string Id { get; set; }
     public Vector3 Center { get; set; }
@@ -9,6 +9,8 @@ public class CircularCushionSegment
     public float Height => Center[2];
     public float A => Center[0];
     public float B => Center[2];
+
+    float ICushion.Height { get => Height; }
 
     public Vector3 GetNormal(Vector3[] rvw)
     {

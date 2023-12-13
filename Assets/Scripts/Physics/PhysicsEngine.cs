@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PhysicsEngine : MonoBehaviour
+public class PhysicsEngine 
 {
-    
+    public Resolver resolver = new Resolver().Default();
 }

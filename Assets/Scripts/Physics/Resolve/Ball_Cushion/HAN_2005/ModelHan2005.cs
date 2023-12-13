@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-public class ModelHan2005 : MonoBehaviour
+public class ModelHan2005
 {
-    PropertiesB2Cush properties;
+    PropertiesB2Cush properties = new();
     private Vector3[] Han2005(Vector3[] rvw, Vector3 normal, float R, float m, float h, float e_c, float f_c)
     {
         normal = Vector3.Dot(normal, rvw[1]) > 0 ? normal : -normal;
@@ -53,7 +53,13 @@ public class ModelHan2005 : MonoBehaviour
 
         return rvw;
     }
-    Tuple<Ball, CushionInfo> Solve(Ball ball, CushionInfo cushion)
+    public Tuple<Ball, CircularCushionSegment> Solve(Ball ball, CircularCushionSegment cushion)
+    {
+        var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.height, ball.params_.e_c, ball.params_.f_c);
+        ball.state = new BallState(rvw, Constants.BallStates.Sliding, 0);
+        return Tuple.Create(ball, cushion);
+    }
+    public Tuple<Ball, LinearCushionSegment> Solve(Ball ball, LinearCushionSegment cushion)
     {
         var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.height, ball.params_.e_c, ball.params_.f_c);
         ball.state = new BallState(rvw, Constants.BallStates.Sliding, 0);
