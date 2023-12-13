@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-public class CanonicalTransition
+public class CanonicalTransition : IBallTransitionStrategy
 {
-    Ball Resolve(Ball ball, EventTypeEnum transition, bool inplace = false)
+    Ball IBallTransitionStrategy.Resolve(Ball ball, EventTypeEnum transition, bool inplace)
     {
         if (!inplace)
             ball = ball.Copy();
@@ -19,7 +19,7 @@ public class CanonicalTransition
             ball.state.rvw[1] = Vector3.zero;
             ball.state.rvw[2] = new Vector3(0, ball.state.rvw[2].y, 0);
         }
-        else if(end == (int)Constants.BallStates.Stationary)
+        else if (end == (int)Constants.BallStates.Stationary)
         {
             var v = ball.state.rvw[1];
             var w = ball.state.rvw[2];
@@ -28,9 +28,8 @@ public class CanonicalTransition
             ball.state.rvw[2] = Vector3.zero;
         }
 
-        return ball; ;
+        return ball;
     }
-
     Tuple<int, int> BallTransitionMotionStates(EventTypeEnum eventType)
     {
         if (eventType == EventTypeEnum.SPINNING_STATIONARY)

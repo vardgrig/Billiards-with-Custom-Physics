@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class CoreBallCCushionCollision
+public abstract class CoreBallCCushionCollision : IBallCCushionCollisionStrategy
 {
-    Ball MakeKiss(Ball ball, CircularCushionSegment cushion)
+    public abstract Tuple<Ball, CircularCushionSegment> Solve(Ball ball, CircularCushionSegment cushion);
+
+    public Ball MakeKiss(Ball ball, CircularCushionSegment cushion)
     {
         var normal = cushion.GetNormal(ball.state.rvw);
         normal = Vector3.Dot(normal, ball.state.rvw[1]) > 0 ? normal : -normal;
@@ -12,7 +14,7 @@ public abstract class CoreBallCCushionCollision
         ball.state.rvw[0] += correction * normal;
         return ball;
     }
-    Tuple<Ball, CircularCushionSegment> Resolve(Ball ball, CircularCushionSegment cushion, bool inplace = false)
+    public Tuple<Ball, CircularCushionSegment> Resolve(Ball ball, CircularCushionSegment cushion, bool inplace)
     {
         if (!inplace)
         {
@@ -22,5 +24,4 @@ public abstract class CoreBallCCushionCollision
         ball = MakeKiss(ball, cushion);
         return Solve(ball, cushion);
     }
-    public abstract Tuple<Ball, CircularCushionSegment> Solve(Ball ball, CircularCushionSegment cushion);
 }

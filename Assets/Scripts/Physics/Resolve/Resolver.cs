@@ -1,11 +1,4 @@
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Assertions.Must;
-
-public class Resolver : MonoBehaviour
+public class Resolver
 {
     IBallBallCollisionStrategy ball_ball;
     IBallLCushionCollisionStrategy ball_lcushion;
@@ -98,37 +91,20 @@ public class Resolver : MonoBehaviour
     public Resolver FromConfig(ResolverConfig config)
     {
         ball_ball = BallBallCollisionResolver.GetBallBallModel(config.ball_ball);
-        ball_lcushion  = BallCushionCollisionResolver.GetBallLinCushionModel(config.ball_lcushion);
-        ball_ccushion  = BallCushionCollisionResolver.GetBallCircCushionModel(config.ball_ccushion);
-        
+        ball_lcushion  = BallCushionCollisionResolver.GetBallLinCushionModel(config.ball_lcushion); //ERROR
+        ball_ccushion  = BallCushionCollisionResolver.GetBallCircCushionModel(config.ball_ccushion); //ERROR
+        ball_pocket = BallPocketCollisionSolver.GetBallPocketModel(config.ball_pocket);
+        stick_ball = StickBallCollisionResolver.GetStickBallModel(config.stick_ball);
+        transition = TransitionResolver.GetTransitionModel(config.transition);
+
         return new()
         {
-            
+            ball_ball = ball_ball, 
+            ball_lcushion = ball_lcushion,
+            ball_ccushion = ball_ccushion, 
+            stick_ball = stick_ball, 
+            transition = transition
         };
     }
 }
-public static class BallCushionCollisionResolver
-{
-    static Dictionary<BallLCushionModel, IBallLCushionCollisionStrategy> ballLCushionModels = new()
-    {
-        { BallLCushionModel.HAN_2005, new Han2005Linear() }
-    };
-    static Dictionary<BallCCushionModel, IBallCCushionCollisionStrategy> ballCCushionModels = new()
-    {
-        { BallLCushionModel.HAN_2005, new Han2005Circular() }
-    };
-    public static IBallLCushionCollisionStrategy GetBallLinCushionModel(BallLCushionModel? model = null)
-    {
-        if (!model.HasValue)
-            return new Han2005Linear();
 
-        return ballLCushionModels[model.Value];
-    }
-    public static IBallCCushionCollisionStrategy GetBallCircCushionModel(BallCCushionModel? model = null)
-    {
-        if (!model.HasValue)
-            return new Han2005Circular();
-
-        return ballCCushionModels[model.Value];
-    }
-}
