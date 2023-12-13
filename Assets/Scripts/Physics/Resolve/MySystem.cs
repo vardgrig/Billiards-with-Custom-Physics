@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class MySystem
 {
@@ -43,5 +45,30 @@ public class MySystem
                 ball.state = ball.history[0].Copy();
         }
     }
+    public bool IsBallsOverlapping()
+    {
+        foreach(var ball1 in balls.Values)
+        {
+            foreach(var ball2  in balls.Values)
+            {
+                if (ball1 == ball2)
+                    continue;
 
+                if (PhysicsUtilities.IsOverlapping(ball1.state.rvw, ball2.state.rvw, ball1.params_.R, ball2.params_.R))
+                    return true;
+            }
+        }
+        return false;
+    }
+    public MySystem Copy()
+    {
+        return new MySystem()
+        {
+            cue = this.cue.Copy(),
+            table = this.table.Copy(),
+            balls = this.balls.ToDictionary(kv => kv.Key, kv => kv.Value.Copy()),
+            t = this.t,
+            events = events.Select(e => e.Copy()).ToList()
+        };
+    }
 }

@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-public class Event : MonoBehaviour
+public class Event
 {
     public EventTypeEnum eventType;
     public float time;
@@ -13,8 +11,13 @@ public class Event : MonoBehaviour
     {
         return agents.Select(agent => agent.id).ToList();
     }
-}
-public class EventDatatypes
-{
-    
+    public Event Copy()
+    {
+        return new Event()
+        {
+            eventType = eventType,
+            time = time,
+            agents = agents
+        };
+    }
 }

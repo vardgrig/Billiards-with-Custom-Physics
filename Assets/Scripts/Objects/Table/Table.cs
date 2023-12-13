@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Table
 {
@@ -47,5 +48,13 @@ public class Table
     {
         TableCollection tables = new();
         return FromTableSpecs(tables.PreBuiltSpecs(name));
+    }
+    public Table Copy()
+    {
+        return new Table()
+        {
+            cushionSegments = this.cushionSegments.Copy(),
+            pockets = this.pockets.ToDictionary(kv => kv.Key, kv => kv.Value.Copy())
+        };
     }
 }
