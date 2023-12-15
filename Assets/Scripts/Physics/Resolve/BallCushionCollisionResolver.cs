@@ -8,7 +8,7 @@ public static class BallCushionCollisionResolver
     };
     static Dictionary<BallCCushionModel, IBallCCushionCollisionStrategy> ballCCushionModels = new()
     {
-        { BallLCushionModel.HAN_2005, new Han2005Circular() }
+        { BallCCushionModel.HAN_2005, new Han2005Circular() }
     };
     public static IBallLCushionCollisionStrategy GetBallLinCushionModel(BallLCushionModel? model = null)
     {

@@ -117,4 +117,14 @@ public static class MathUtilities
 
         return transposedVectorArray;
     }
+    public static int Orientation(Vector3 p, Vector3 q, Vector3 r)
+    {
+        var val = ((q.z - p.z) * (r.x - q.x)) - ((q.x - p.x) * (r.z - q.z));
+        if (val > 0)
+            return 1;
+        else if (val < 0)
+            return 2;
+        else
+            return 0;
+    }
 }

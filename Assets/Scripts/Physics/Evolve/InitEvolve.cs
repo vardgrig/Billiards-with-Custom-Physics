@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class InitEvolve
+public static class InitEvolve
 {
-    public Tuple<Vector3[], Constants.BallStates> Evolve_Ball_Motion(Constants.BallStates state, Vector3[] rvw, float R, float m, float u_s, float u_sp, float u_r, float g, float t)
+    public static Tuple<Vector3[], Constants.BallStates> Evolve_Ball_Motion(Constants.BallStates state, Vector3[] rvw, float R, float m, float u_s, float u_sp, float u_r, float g, float t)
     {
         if (state == Constants.BallStates.Stationary || state == Constants.BallStates.Pocketed)
             return new Tuple<Vector3[], Constants.BallStates>(rvw, state);
@@ -36,7 +36,7 @@ public class InitEvolve
         return new Tuple<Vector3[], Constants.BallStates>(rvw, state);
 
     }
-    public Vector3[] Evolve_Slide_State(Vector3[] rvw, float R, float m, float u_s, float u_sp, float g, float t)
+    public static Vector3[] Evolve_Slide_State(Vector3[] rvw, float R, float m, float u_s, float u_sp, float g, float t)
     {
         if (t == 0)
             return rvw;
@@ -59,7 +59,7 @@ public class InitEvolve
         rvw_T[0] += rvw[0];
         return rvw_T;
     }
-    public Tuple<Vector3[], Constants.BallStates> Evolve_State_Motion(Constants.BallStates state, Vector3[] rvw, float R, float m, float u_s, float u_sp, float u_r, float g, float t)
+    public static Tuple<Vector3[], Constants.BallStates> Evolve_State_Motion(Constants.BallStates state, Vector3[] rvw, float R, float m, float u_s, float u_sp, float u_r, float g, float t)
     {
         if (state == Constants.BallStates.Stationary || state == Constants.BallStates.Pocketed)
             return new Tuple<Vector3[], Constants.BallStates>(rvw, state);
@@ -71,7 +71,7 @@ public class InitEvolve
             return new Tuple<Vector3[], Constants.BallStates>(Evolve_Perpendicular_Spin_State(rvw, R, u_sp, g, t), Constants.BallStates.Spinning);
         return new Tuple<Vector3[], Constants.BallStates>(rvw, state);
     }
-    public Vector3[] Evolve_Roll_State(Vector3[] rvw, float R, float u_r, float u_sp, float g, float t)
+    public static Vector3[] Evolve_Roll_State(Vector3[] rvw, float R, float u_r, float u_sp, float g, float t)
     {
         if (t == 0)
             return rvw;
@@ -97,12 +97,12 @@ public class InitEvolve
         return new_rvw;
 
     }
-    public Vector3[] Evolve_Perpendicular_Spin_State(Vector3[] rvw, float R, float u_sp, float g, float t)
+    public static Vector3[] Evolve_Perpendicular_Spin_State(Vector3[] rvw, float R, float u_sp, float g, float t)
     {
         rvw[2][2] = Evolve_Perpendicular_Spin_Component(rvw[2][2], R, u_sp, g, t);
         return rvw;
     }
-    public float Evolve_Perpendicular_Spin_Component(float wz, float R, float u_sp, float g, float t)
+    public static float Evolve_Perpendicular_Spin_Component(float wz, float R, float u_sp, float g, float t)
     {
         if (t == 0)
             return wz;

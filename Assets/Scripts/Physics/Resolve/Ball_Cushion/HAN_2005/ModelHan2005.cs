@@ -55,13 +55,13 @@ public class ModelHan2005
     }
     public Tuple<Ball, CircularCushionSegment> Solve(Ball ball, CircularCushionSegment cushion)
     {
-        var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.height, ball.params_.e_c, ball.params_.f_c);
+        var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.Height, ball.params_.e_c, ball.params_.f_c);
         ball.state = new BallState(rvw, Constants.BallStates.Sliding, 0);
         return Tuple.Create(ball, cushion);
     }
     public Tuple<Ball, LinearCushionSegment> Solve(Ball ball, LinearCushionSegment cushion)
     {
-        var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.height, ball.params_.e_c, ball.params_.f_c);
+        var rvw = Han2005(ball.state.rvw, cushion.GetNormal(ball.state.rvw), ball.params_.R, ball.params_.m, cushion.Height, ball.params_.e_c, ball.params_.f_c);
         ball.state = new BallState(rvw, Constants.BallStates.Sliding, 0);
         return Tuple.Create(ball, cushion);
     }
